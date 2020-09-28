@@ -11,5 +11,7 @@ def queryIcon(key):
         icon = origin[key];
     # 如果获取不到,直接给默认
     else:
-        icon = "http://q9dyis36l.bkt.clouddn.com/20101027235020136.png"
+        icon = "http://img1.dianzedushu.cn/20101027235020136.png"
+
+    print(icon)
     return icon;

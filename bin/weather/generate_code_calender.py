@@ -316,6 +316,8 @@ def create_image_search(image_name, fives, save_path, parent_path):
                 draw.stroke_color=Color(toHex(newRgb))
                 draw.fill_color=Color(toHex(newRgb))
                 draw.text(630, 300, fives['addr'])
+                # draw.stroke_width=10
+                # draw.rectangle(left=10, top=10, right=40, bottom=40)
                 draw(cloned)
                 del_file(parent_path+'/composite')
                 del_file(parent_path+'/background')

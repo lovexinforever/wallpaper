@@ -84,9 +84,11 @@ def getToday():
     print(url)
     browser.get(url)
     soup=BeautifulSoup(browser.page_source,'html.parser');
-    tagTodayTemp=soup.find('div',attrs={'class':'today_nowcard-temp'})
-    tagTodayDes=soup.find('div',attrs={'class':'today_nowcard-phrase'})
+    # print(soup)
+    tagTodayTemp=soup.find('span',attrs={'data-testid':'TemperatureValue'})
+    tagTodayDes=soup.find('div',attrs={'data-testid':'wxPhrase'})
     # print(tagTodayDes)
+    # print(tagTodayTemp)
     request.urlretrieve(icon.queryIcon(tagTodayDes.get_text()), '/tmp/weather.png')
     current = {}
     current['des'] = tagTodayDes.get_text()
