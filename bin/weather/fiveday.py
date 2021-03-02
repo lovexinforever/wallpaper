@@ -25,30 +25,40 @@ def getFives():
     #设置chrome浏览器无界面模式
     chrome_options.add_argument('--headless')
     browser = webdriver.Chrome(chrome_options=chrome_options, executable_path='/usr/local/bin/chromedriver')
-    url = "https://weather.com/zh-CN/weather/5day/l/"+code
+    url = "https://weather.com/zh-CN/weather/tenday/l/"+code
     browser.get(url)
     
     soupFive=BeautifulSoup(browser.page_source,'html.parser');
     
     # 最近五天
-    fives=soupFive.find_all('tr',attrs={'class':'clickable'});
+    main=soupFive.select('main[id="MainContent"]')
+    # print(main)
+    # print(soupFive.select('section')[0])
+    fives=main[0].select('section')[0].find_all('details');
+    # print(fives)
     for index in range(len(fives)):
         if(index != 0):
             # 天气描述
-            currentDesTag = fives[index].find('td',attrs={'class':'description'});
+            # print(fives[index])
+            currentDesTag = fives[index].find('div',attrs={'data-testid':'wxIcon'}).find('span');
+            # print(currentDesTag)
             # 日期所处的位置
-            week=fives[index].find_all('td',attrs={'class':'twc-sticky-col'})[1];
+            # week=fives[index].find_all('td',attrs={'class':'twc-sticky-col'})[1];
+            week = fives[index].find("h2", attrs={'data-testid': "daypartName"}).get_text()
+            # print(week)
             # 日期
-            weekDate=week.find('span',attrs={'class':'day-detail'});
-            weekContent=week.find('span',attrs={'class':'date-time'});
+            weekDate=week.split(' ')[1];
+            weekContent=week.split(' ')[0];
+            # print(weekDate)
             # 温度
-            currentTempTag=fives[index].find('td',attrs={'class':'temp'}).find_all('span');
+            currentTempTag=fives[index].find('div',attrs={'data-testid':'detailsTemperature'}).find_all('span');
             currentTemp = currentTempTag[0].get_text()+" / "+currentTempTag[2].get_text()
+            # print(currentTemp)
             # 图标存储路径
             iconpath = '/tmp/five' + str(index) + '.png'
             currentDes = currentDesTag.get_text()
-            weekDate = weekDate.get_text()
-            weekContent = weekContent.get_text()
+            # weekDate = weekDate.get_text()
+            # weekContent = weekContent.get_text()
             current = {}
             current['des'] = currentDes
             current['date'] = weekDate

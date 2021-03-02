@@ -26,8 +26,8 @@ def queryIpAddress(ipaddress):
     #    reaponse = request.urlopen(req);
     soup=BeautifulSoup(browser.page_source,'html.parser');
     a = soup.find('div', attrs={'class': 'WhoIpWrap'})
-    # print(a);
-    b = a.find_all('p')[1].find_all('span')[3].get_text();
+#    print(a);
+    b = a.find_all('p')[0].get_text();
     # print(b)
     address = b.split(' ')[0]
     return address
